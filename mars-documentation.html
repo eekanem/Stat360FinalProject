@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multivariate Adaptive Regression Splines (MARS)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for MARS-package"><tr><td>MARS-package</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Multivariate Adaptive Regression Splines (MARS)</h2>
+
+<h3>Description</h3>
+
+<p>Implementing MARS algorithm in R based on Friedman's paper.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mars(formula, data, control = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>A symbolic description of the model to be fitted.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame that contains the variables in the model.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list of comprised of elements Mmax, d and trace.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Models for mars() are specified symbolically.
+A typical model has the form response ~ terms where
+response is the (numeric) response vector and terms
+is a series of terms which specifies a linear predictor
+for response. A terms specification of the form first + second
+indicates all the terms in first together with all the terms
+in second with duplicates removed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>object of S3 class mars inherits from class lm and includes
+all of the components of the lm() from the final fit.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Enwongoabasi ime Ekanem, Mya Nandar May, Peiyuan Li
+</p>
+
+
+<h3>References</h3>
+
+<p>Friedman, J. H. (1991). Multivariate adaptive regression
+splines. The Annals of Statistics, 19(1). doi:10.1214/aos/1176347963
+</p>
+
+
+<h3>See Also</h3>
+
+<p>summary.mars for summaries and print.mars for printing
+calculated values.
+</p>
+<p>plot.mars for plotting ANOVA decomposition.
+</p>
+<p>predict.mars for prediction, including confidence and prediction intervals.
+</p>
+<p>The generic functions residuals(), fitted(), hatvalues() and others that
+depend only on the final lm can be used as-is.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(ISLR)
+data(Wage)
+mc &lt;- mars.control(Mmax=10)
+mout &lt;- mars(wage ~ age + education, data=Wage, control=mc)
+ff &lt;- fitted(mout)
+p1 &lt;- predict(mout)
+p2 &lt;- predict(mout,newdata=data.frame(age=Wage$age,education=Wage$education))
+head(cbind(ff,p1,p2)) # columns should be identical
+mout # tests print method
+summary(mout) #test summary method
+anova(mout) # test anova method
+plot(mout) # test plot method
+
+require(ISLR)
+data(Wage)
+mc &lt;- mars.control(Mmax=4)
+mout &lt;- mars(wage ~ age,Wage,mc)
+summary(mout)$coefficients
+
+</pre>
+
+
+</body></html>
