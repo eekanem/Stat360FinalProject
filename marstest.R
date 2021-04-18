@@ -45,7 +45,7 @@ predict.mars <- function(object, newdata){
     X <- split_X(X, object$splits)
   }
   
-  beta <- object $coefficients
+  beta <- object$coefficients
   drop(X %*% beta)
 }
 
@@ -66,6 +66,11 @@ one_split_X <- function(X, split){
   }
   return(Xout)
 }
+plot.mars=function(object){
+  plot(fitted(object),residuals(object),pch=20)
+  abline(h=0, lwd=1, lty=2, col="gray")
+}
+
 ## forward stepwise function
 fwd_stepwise <- function(y,x,control){
   
