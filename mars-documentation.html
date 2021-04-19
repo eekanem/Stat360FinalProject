@@ -9,7 +9,7 @@
 
 <h3>Description</h3>
 
-<p>Implementing MARS algorithm in R based on Friedman's paper.
+<p>Implementing Multivariate Adaptive Regression Splines algorithm in R based on Friedman's paper.
 </p>
 
 
@@ -40,7 +40,7 @@ mars(formula, data, control = NULL, ...)
 
 <h3>Details</h3>
 
-<p>Models for mars() are specified symbolically.
+<p>Models for <code>mars()</code> are specified symbolically.
 A typical model has the form response ~ terms where
 response is the (numeric) response vector and terms
 is a series of terms which specifies a linear predictor
@@ -53,7 +53,7 @@ in second with duplicates removed.
 <h3>Value</h3>
 
 <p>object of S3 class mars inherits from class lm and includes
-all of the components of the lm() from the final fit.
+all of the components of the <code>lm()</code> from the final fit.
 </p>
 
 
@@ -79,7 +79,7 @@ calculated values.
 </p>
 <p>predict.mars for prediction, including confidence and prediction intervals.
 </p>
-<p>The generic functions residuals(), fitted(), hatvalues() and others that
+<p>The generic functions <code>residuals()</code>, <code>fitted()</code>, <code>hatvalues()</code> and others that
 depend only on the final lm can be used as-is.
 </p>
 
