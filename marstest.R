@@ -72,11 +72,19 @@ plot.mars=function(object){
   abline(h=0, lwd=1, lty=2, col="gray")
 }
 
+print.mars<-function(object){
+  cat("Call: ", "\n" )
+  print(object$call); cat("\n")
+  cat("Coefficients: ", "\n")
+  round(object$coefficients, 4)
+}
+
 summary.mars <- function(object) {
   
   N <- ncol(object$B)
   splits <- object$splits
   yy = as.data.frame(matrix(ncol=2, nrow=N))
+  
   colnames(yy) = c("", "estimates")
   yy[[1,1]] = "(Intercept)"
   yy[[1,2]] = object$coefficients[1]
@@ -84,18 +92,33 @@ summary.mars <- function(object) {
   for (i in 2:N) {
     if(splits[[i]]["s"][2,1]!= -1)
     {
-      rr = paste0(mout$x_names[mout$splits[[i]]["v"][2,1]])
-      
+      rr = paste0("h(", object$x_names[splits[[i]]["v"][2,1]],  "-",  splits[[i]]["t"][2,1], ")")
+      if(splits[[i]]["t"][2,1]==0)
+      {
+        rr=object$x_names[splits[[i]]["v"][2,1]]
+      }
     }
     else {
-      rr = paste0("h(", splits[[i]]["t"][2,1],  "-", mout$x_names[mout$splits[[i]]["v"][2,1]], ")")
+      rr = paste0("h(", splits[[i]]["t"][2,1],  "-", object$x_names[splits[[i]]["v"][2,1]], ")")
+      if(splits[[i]]["t"][2,1]==0)
+      {
+        rr=object$x_names[splits[[i]]["v"][2,1]]
+      }
     }
     yy[i,1]=gsub("[[:space:]]", "", rr)
     yy[i,2] = object$coefficients[i]
     
   }
-  print.data.frame(yy, row.names = FALSE)
+  cat("Call: ", "\n" )
+  print(mout$call); cat("\n")
+  print.data.frame(yy, row.names = FALSE); cat("\n")
+  cat("Variables: ", "\n")
+  for(x in 1:N){
+    cat(colnames(mout$B)[x], ":", yy[x,1], "\n")
+  }
+  
 }
+
 ## forward stepwise function
 fwd_stepwise <- function(y,x,control){
   
