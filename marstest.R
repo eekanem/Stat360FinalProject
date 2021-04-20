@@ -79,7 +79,7 @@ summary.mars <- function(object) {
   yy = as.data.frame(matrix(ncol=2, nrow=N))
   colnames(yy) = c("", "estimates")
   yy[[1,1]] = "(Intercept)"
-  yy[[2,1]] = object$coefficients[1]
+  yy[[1,2]] = object$coefficients[1]
   
   for (i in 2:N) {
     if(splits[[i]]["s"][2,1]!= -1)
