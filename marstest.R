@@ -67,10 +67,35 @@ one_split_X <- function(X, split){
   return(Xout)
 }
 plot.mars=function(object){
-  plot(fitted(object),residuals(object),pch=20)
+  plot(fitted(object),residuals(object),pch=20,
+       main="Residuals vs Fitted", xlab="Fitted", ylab="Residuals")
   abline(h=0, lwd=1, lty=2, col="gray")
 }
 
+summary.mars <- function(object) {
+  
+  N <- ncol(object$B)
+  splits <- object$splits
+  yy = as.data.frame(matrix(ncol=2, nrow=N))
+  colnames(yy) = c("", "estimates")
+  yy[[1,1]] = "(Intercept)"
+  yy[[2,1]] = object$coefficients[1]
+  
+  for (i in 2:N) {
+    if(splits[[i]]["s"][2,1]!= -1)
+    {
+      rr = paste0(mout$x_names[mout$splits[[i]]["v"][2,1]])
+      
+    }
+    else {
+      rr = paste0("h(", splits[[i]]["t"][2,1],  "-", mout$x_names[mout$splits[[i]]["v"][2,1]], ")")
+    }
+    yy[i,1]=gsub("[[:space:]]", "", rr)
+    yy[i,2] = object$coefficients[i]
+    
+  }
+  print.data.frame(yy, row.names = FALSE)
+}
 ## forward stepwise function
 fwd_stepwise <- function(y,x,control){
   
@@ -103,8 +128,8 @@ fwd_stepwise <- function(y,x,control){
     m <- split_best["m"]; v <- split_best["v"]; t <- split_best["t"]
     
     B <- cbind(B, B[,m]*h(x[,v],1,t), B[,m]*h(x[,v],-1,t))
-    left_split <- rbind(splits[[m]],c(m,v,-1,t))
-    right_split <- rbind(splits[[m]],c(m,v,1,t))
+    left_split <- rbind(splits[[m]],c(m,v,1,t))
+    right_split <- rbind(splits[[m]],c(m,v,-1,t))
     
     splits <- c(splits,list(left_split),list(right_split))
     
