@@ -1,18 +1,14 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 > ### Files:
 
 -   mars.R
 
-    -   contains methods:
+    -   contains functions to carry out the MARS algorithm. functions
+        included are fwd_stepwise, bwd_stepwise, and 3 supporting
+        functions
 
 -   anova.mars()
 
-    -   graphical decomposition
+    -   graphical decomposition of the output
 
 -   fitted.R
 
@@ -29,7 +25,8 @@ editor_options:
 
 -   plot.R
 
-    -   plots out fitted values vs. predictors
+    -   plots out fitted values vs. predictors and cumulative
+        distribution
 
 -   summary.R
 
