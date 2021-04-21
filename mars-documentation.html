@@ -106,6 +106,29 @@ mc &lt;- mars.control(Mmax=4)
 mout &lt;- mars(wage ~ age,Wage,mc)
 summary(mout)$coefficients
 
+
+ins <- read.csv("insurance.csv")
+mout2 <- mars(charges ~ age + bmi, data = ins, control = mc)
+ff2 <- fitted(mout2)
+p21 <- predict(mout2)
+p22 <- predict(mout2, newdata = data.frame(age = ins$age, bmi = ins$bmi))
+head(cbind(ff2,p21,p22))
+mout2
+summary(mout2)
+anova(mout2)
+plot(mout2)
+
+
+water <- (na.omit(read.csv("waterquality.csv")))
+mout3 <- mars(CONDUCTIVITY ~ pH + TOTAL_COLIFORM, data = water, control = mc)
+ff3 <- fitted(mout4)
+p31 <- predict(mout4)
+p32 <- predict(mout4, newdata = data.frame(pH = water$pH, DMC = forest$DMC))
+head(cbind(ff3,p31,p32))
+mout3
+summary(mout3)
+anova(mout3)
+plot(mout3)
 </pre>
 
 
