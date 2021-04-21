@@ -1,11 +1,10 @@
-source("marstest.R")
-
 # test 1
-# source("mars.r")
-# source("predict.r")
-# source("print.r")
-# source("summary.r")
-# source("plot.R")
+source("mars.r")
+source("predict.r")
+source("print.r")
+source("summary.r")
+source("plot.R")
+source("anova.R")
 
 library(ISLR)
 data(Wage)
