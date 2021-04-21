@@ -34,7 +34,7 @@ mars.control <- function(Mmax=2, d=3, trace=FALSE) {
 
 predict.mars <- function(object, newdata){
   if(missing(newdata)|| is.null(newdata)){
-    X<-object$B
+    return(object$fitted)
   }
   else{
     tt <- terms(object$formula)
@@ -43,10 +43,9 @@ predict.mars <- function(object, newdata){
     mt <- attr(mf, "terms")
     X <- model.matrix(mt, mf)
     X <- split_X(X, object$splits)
+    beta <- object$coefficients
+    return(drop(X %*% beta))
   }
-  
-  beta <- object$coefficients
-  drop(X %*% beta)
 }
 
 split_X <- function(X, splits){
@@ -139,7 +138,7 @@ fwd_stepwise <- function(y,x,control){
           Bnew <- data.frame(B[,(1:M)[-m]],
                              Btem1=B[,m]*h(x[,v],1,t), Btem2=B[,m]*h(x[,v],-1,t))
           gdat <- data.frame(y=y,Bnew)
-          lof <- LOF(y~.,gdat) #  Use your LOF() from week 4
+          lof <- LOF(y~.,gdat, control) #  Use your LOF() from week 4
           if(lof < lof_best) { 
             lof_best <- lof
             split_best <- c(m=m,v=v,t=t)
@@ -168,7 +167,7 @@ bwd_stepwise <- function(bwd_in, control) {
   j_best <- 1:control$Mmax 
   k_best <- j_best
   gdat <- data.frame(y=bwd_in$y,bwd_in$B)
-  lof_best <- LOF(y~.,gdat)
+  lof_best <- LOF(y~.,gdat, control)
   for(M in control$Mmax:2){
     B <- Inf
     L <- k_best
@@ -176,7 +175,7 @@ bwd_stepwise <- function(bwd_in, control) {
       
       K <- setdiff(L,m)
       gdat <- data.frame(y=bwd_in$y, bwd_in$B[,K])
-      lof <- LOF(y~., gdat)
+      lof <- LOF(y~., gdat, control)
       if(lof<B){
         B <- lof
         k_best <- K
@@ -198,13 +197,13 @@ h <- function(x,s,t) {
   return(pmax(0,s*(x-t)))
 }
 
-LOF <- function(form,data, d=3) {
+LOF <- function(form,data, control) {
   
   ff <- lm(form,data)
   SSR = (sum(residuals(ff)^2))
   N = nrow(data)
   M = length(coef(ff))-1
-  cM_tilde = sum(diag(hatvalues(ff)))+d*M
+  cM_tilde = sum(diag(hatvalues(ff)))+control$d*M
   gcv = SSR*N/(N-cM_tilde)^2
   return(gcv)
 }
