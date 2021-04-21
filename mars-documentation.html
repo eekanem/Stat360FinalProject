@@ -33,7 +33,7 @@ mars(formula, data, control = NULL, ...)
 </td></tr>
 <tr valign="top"><td><code>control</code></td>
 <td>
-<p>a list of elements comprised of Mmax, d and trace.</p>
+<p>a list of comprised of elements Mmax, d and trace.</p>
 </td></tr>
 </table>
 
@@ -59,7 +59,7 @@ all of the components of the <code>lm()</code> from the final fit.
 
 <h3>Author(s)</h3>
 
-<p>Enwongoabasi Ime Ekanem, Mya Nandar May, Peiyuan Li
+<p>Enwongoabasi ime Ekanem, Mya Nandar May, Peiyuan Li
 </p>
 
 
@@ -75,11 +75,9 @@ splines. The Annals of Statistics, 19(1). doi:10.1214/aos/1176347963
 <p>summary.mars for summaries and print.mars for printing
 calculated values.
 </p>
-<p>plot.mars for plotting residual vs fitted and cumulative distribution.
+<p>plot.mars for plotting ANOVA decomposition.
 </p>
-<p>predict.mars for prediction based on new data inputted.
-</p>
-<p>anova.mars for anova decomposition.
+<p>predict.mars for prediction, including confidence and prediction intervals.
 </p>
 <p>The generic functions <code>residuals()</code>, <code>fitted()</code>, <code>hatvalues()</code> and others that
 depend only on the final lm can be used as-is.
@@ -89,9 +87,7 @@ depend only on the final lm can be used as-is.
 <h3>Examples</h3>
 
 <pre>
-
-#1  
-require(ISLR)
+library(ISLR)
 data(Wage)
 mc &lt;- mars.control(Mmax=10)
 mout &lt;- mars(wage ~ age + education, data=Wage, control=mc)
@@ -104,35 +100,31 @@ summary(mout) #test summary method
 anova(mout) # test anova method
 plot(mout) # test plot method
 
-require(ISLR)
-data(Wage)
-mc &lt;- mars.control(Mmax=4)
-mout &lt;- mars(wage ~ age,Wage,mc)
-summary(mout)$coefficients
 
-#2
-ins <- read.csv("insurance.csv")
-mout2 <- mars(charges ~ age + bmi, data = ins, control = mc)
-ff2 <- fitted(mout2)
-p21 <- predict(mout2)
-p22 <- predict(mout2, newdata = data.frame(age = ins$age, bmi = ins$bmi))
-head(cbind(ff2,p21,p22))
-mout2
-summary(mout2)
-anova(mout2)
-plot(mout2, which=1) #which=1 plots residual vs fitted values
+ins &lt;- read.csv("insurance.csv") #from https://www.kaggle.com/mirichoi0218/insurance/activity
+mout2 &lt;- mars(charges ~ age + bmi, data = ins, control = mc)
+ff2 &lt;- fitted(mout2)
+p21 &lt;- predict(mout2)
+p22 &lt;- predict(mout2, newdata = data.frame(age = ins$age, bmi = ins$bmi))
+head(cbind(ff2,p21,p22)) # columns should be identical
+mout2 # tests print method
+summary(mout2) #test summary method
+anova(mout2) # test anova method
+plot(mout2) # test plot method
 
-#3
-water <- (na.omit(read.csv("waterquality.csv")))
-mout3 <- mars(CONDUCTIVITY ~ pH + TOTAL_COLIFORM, data = water, control = mc)
-ff3 <- fitted(mout4)
-p31 <- predict(mout4)
-p32 <- predict(mout4, newdata = data.frame(pH = water$pH, DMC = forest$DMC))
-head(cbind(ff3,p31,p32))
-mout3
-summary(mout3)
-anova(mout3)
-plot(mout3, which=2) #which=2 plots cumulative distribution
+
+water &lt;- (na.omit(read.csv("waterquality.csv"))) #from https://www.kaggle.com/utcarshagrawal/water-quality-data
+mout3 &lt;- mars(CONDUCTIVITY ~ pH + TOTAL_COLIFORM, data = water, control = mc)
+ff3 &lt;- fitted(mout4)
+p31 &lt;- predict(mout4)
+p32 &lt;- predict(mout4, newdata = data.frame(pH = water$pH, DMC = forest$DMC))
+head(cbind(ff3,p31,p32)) # columns should be identical
+mout3 # tests print method
+summary(mout3) #test summary method
+anova(mout3) # test anova method
+plot(mout3) #test plot method
+
+
 </pre>
 
 
