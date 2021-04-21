@@ -87,6 +87,8 @@ depend only on the final lm can be used as-is.
 <h3>Examples</h3>
 
 <pre>
+
+#1  
 require(ISLR)
 data(Wage)
 mc &lt;- mars.control(Mmax=10)
@@ -106,7 +108,7 @@ mc &lt;- mars.control(Mmax=4)
 mout &lt;- mars(wage ~ age,Wage,mc)
 summary(mout)$coefficients
 
-
+#2
 ins <- read.csv("insurance.csv")
 mout2 <- mars(charges ~ age + bmi, data = ins, control = mc)
 ff2 <- fitted(mout2)
@@ -118,7 +120,7 @@ summary(mout2)
 anova(mout2)
 plot(mout2)
 
-
+#3
 water <- (na.omit(read.csv("waterquality.csv")))
 mout3 <- mars(CONDUCTIVITY ~ pH + TOTAL_COLIFORM, data = water, control = mc)
 ff3 <- fitted(mout4)
