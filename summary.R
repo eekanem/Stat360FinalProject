@@ -29,11 +29,11 @@ summary.mars <- function(object) {
     
   }
   cat("Call: ", "\n" )
-  print(mout$call); cat("\n")
+  print(object$call); cat("\n")
   print.data.frame(yy, row.names = FALSE); cat("\n")
   cat("Variables: ", "\n")
   for(x in 1:N){
-    cat(colnames(mout$B)[x], ":", yy[x,1], "\n")
+    cat(colnames(object$B)[x], ":", yy[x,1], "\n")
   }
   
 }
