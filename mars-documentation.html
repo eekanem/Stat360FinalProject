@@ -33,7 +33,7 @@ mars(formula, data, control = NULL, ...)
 </td></tr>
 <tr valign="top"><td><code>control</code></td>
 <td>
-<p>a list of comprised of elements Mmax, d and trace.</p>
+<p>a list of elements comprised of Mmax, d and trace.</p>
 </td></tr>
 </table>
 
@@ -59,7 +59,7 @@ all of the components of the <code>lm()</code> from the final fit.
 
 <h3>Author(s)</h3>
 
-<p>Enwongoabasi ime Ekanem, Mya Nandar May, Peiyuan Li
+<p>Enwongoabasi Ime Ekanem, Mya Nandar May, Peiyuan Li
 </p>
 
 
@@ -75,9 +75,11 @@ splines. The Annals of Statistics, 19(1). doi:10.1214/aos/1176347963
 <p>summary.mars for summaries and print.mars for printing
 calculated values.
 </p>
-<p>plot.mars for plotting ANOVA decomposition.
+<p>plot.mars for plotting residual vs fitted and cumulative distribution.
 </p>
-<p>predict.mars for prediction, including confidence and prediction intervals.
+<p>predict.mars for prediction based on new data inputted.
+</p>
+<p>anova.mars for anova decomposition.
 </p>
 <p>The generic functions <code>residuals()</code>, <code>fitted()</code>, <code>hatvalues()</code> and others that
 depend only on the final lm can be used as-is.
@@ -118,7 +120,7 @@ head(cbind(ff2,p21,p22))
 mout2
 summary(mout2)
 anova(mout2)
-plot(mout2)
+plot(mout2, which=1) #which=1 plots residual vs fitted values
 
 #3
 water <- (na.omit(read.csv("waterquality.csv")))
@@ -130,7 +132,7 @@ head(cbind(ff3,p31,p32))
 mout3
 summary(mout3)
 anova(mout3)
-plot(mout3)
+plot(mout3, which=2) #which=2 plots cumulative distribution
 </pre>
 
 

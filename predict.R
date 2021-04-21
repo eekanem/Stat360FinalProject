@@ -1,6 +1,6 @@
 predict.mars <- function(object, newdata){
   if(missing(newdata)|| is.null(newdata)){
-    X<-object$B
+    return(object$fitted)
   }
   else{
     tt <- terms(object$formula)
@@ -9,10 +9,9 @@ predict.mars <- function(object, newdata){
     mt <- attr(mf, "terms")
     X <- model.matrix(mt, mf)
     X <- split_X(X, object$splits)
+    beta <- object$coefficients
+    return(drop(X %*% beta))
   }
-  
-  beta <- object$coefficients
-  drop(X %*% beta)
 }
 
 split_X <- function(X, splits){
