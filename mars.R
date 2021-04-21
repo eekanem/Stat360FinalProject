@@ -32,92 +32,6 @@ mars.control <- function(Mmax=2, d=3, trace=FALSE) {
   return(control)
 }
 
-predict.mars <- function(object, newdata){
-  if(missing(newdata)|| is.null(newdata)){
-    return(object$fitted)
-  }
-  else{
-    tt <- terms(object$formula)
-    tt <- delete.response(tt)
-    mf <- model.frame(tt, newdata)
-    mt <- attr(mf, "terms")
-    X <- model.matrix(mt, mf)
-    X <- split_X(X, object$splits)
-    beta <- object$coefficients
-    return(drop(X %*% beta))
-  }
-}
-
-split_X <- function(X, splits){
-  Xout <- matrix(0, nrow=nrow(X), ncol=length(splits))
-  for(i in 1:length(splits)){
-    Xout[,i]<-one_split_X(X, splits[[i]])
-  }
-  return(Xout)
-}
-
-one_split_X <- function(X, split){
-  Xout <- rep(1, nrow(X))
-  if(nrow(split)>1){
-    for(i in 2:nrow(split)){
-      Xout <- Xout * h(X[,split[i,"v"]], split[i,"s"],split[i,"t"])
-    }
-  }
-  return(Xout)
-}
-plot.mars=function(object){
-  plot(fitted(object),residuals(object),pch=20,
-       main="Residuals vs Fitted", xlab="Fitted", ylab="Residuals")
-  abline(h=0, lwd=1, lty=2, col="gray")
-}
-
-print.mars<-function(object){
-  cat("Call: ", "\n" )
-  print(object$call); cat("\n")
-  cat("Coefficients: ", "\n")
-  round(object$coefficients, 4)
-}
-
-summary.mars <- function(object) {
-  
-  N <- ncol(object$B)
-  splits <- object$splits
-  yy = as.data.frame(matrix(ncol=2, nrow=N))
-  
-  colnames(yy) = c("", "estimates")
-  yy[[1,1]] = "(Intercept)"
-  yy[[1,2]] = object$coefficients[1]
-  
-  for (i in 2:N) {
-    if(splits[[i]]["s"][2,1]!= -1)
-    {
-      rr = paste0("h(", object$x_names[splits[[i]]["v"][2,1]],  "-",  splits[[i]]["t"][2,1], ")")
-      if(splits[[i]]["t"][2,1]==0)
-      {
-        rr=object$x_names[splits[[i]]["v"][2,1]]
-      }
-    }
-    else {
-      rr = paste0("h(", splits[[i]]["t"][2,1],  "-", object$x_names[splits[[i]]["v"][2,1]], ")")
-      if(splits[[i]]["t"][2,1]==0)
-      {
-        rr=object$x_names[splits[[i]]["v"][2,1]]
-      }
-    }
-    yy[i,1]=gsub("[[:space:]]", "", rr)
-    yy[i,2] = object$coefficients[i]
-    
-  }
-  cat("Call: ", "\n" )
-  print(mout$call); cat("\n")
-  print.data.frame(yy, row.names = FALSE); cat("\n")
-  cat("Variables: ", "\n")
-  for(x in 1:N){
-    cat(colnames(mout$B)[x], ":", yy[x,1], "\n")
-  }
-  
-}
-
 ## forward stepwise function
 fwd_stepwise <- function(y,x,control){
   
@@ -213,4 +127,3 @@ split_points <- function(xv,Bm) {
   return(out[-length(out)])
 }
 
-##push/pull test 
