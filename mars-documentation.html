@@ -41,6 +41,9 @@ mars(formula, data, control = NULL, ...)
 <h3>Details</h3>
 
 <p>Models for <code>mars()</code> are specified symbolically.
+The model takes the form of an expansion in product spline basis functions,
+where the number of basis functions as well as the parameters associated with
+each one (product degree and knot locations) are automatically determined by the data.
 A typical model has the form response ~ terms where
 response is the (numeric) response vector and terms
 is a series of terms which specifies a linear predictor
