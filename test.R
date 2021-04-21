@@ -1,6 +1,12 @@
 source("marstest.R")
 
 # test 1
+# source("mars.r")
+# source("predict.r")
+# source("print.r")
+# source("summary.r")
+# source("plot.R")
+
 library(ISLR)
 data(Wage)
 mc <- mars.control(Mmax=10)
